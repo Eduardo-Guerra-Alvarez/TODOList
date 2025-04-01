@@ -1,5 +1,6 @@
 package com.eduardo.spring.spring_app_todolist.controller;
 
+import com.eduardo.spring.spring_app_todolist.dto.CategoryDTO;
 import com.eduardo.spring.spring_app_todolist.model.Category;
 import com.eduardo.spring.spring_app_todolist.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,12 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping
-    public List<Category> getCategories() {
+    public List<CategoryDTO> getCategories() {
         return categoryService.getAllCategories();
     }
 
     @GetMapping("/{id}")
-    public Optional<Category> getCategory(@PathVariable Long id) {
+    public Optional<CategoryDTO> getCategory(@PathVariable Long id) {
         return categoryService.getCategory(id);
     }
 
@@ -36,7 +37,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public Category updateCategory(@PathVariable Long id, @RequestBody Category category) {
+    public CategoryDTO updateCategory(@PathVariable Long id, @RequestBody Category category) {
         return categoryService.updateCategory(id, category);
     }
 
