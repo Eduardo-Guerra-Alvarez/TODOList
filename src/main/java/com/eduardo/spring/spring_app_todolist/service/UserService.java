@@ -59,4 +59,35 @@ public class UserService {
             throw new RuntimeException("User not found");
         }
     }
+
+    public User updateUser(Long id, User user) {
+        Optional<User> userById = userRepository.findById(id);
+
+        if(userById.isPresent()) {
+            User userUpdate = userById.get();
+            userUpdate.setEmail(user.getEmail());
+            userUpdate.setName(user.getName());
+
+            return userRepository.save(userUpdate);
+        } else {
+            throw new RuntimeException("User not found");
+        }
+    }
+
+    public User removeUserFromTask(Long userId, Long taskId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new RuntimeException("Task not found"));
+
+        user.getTasks().remove(task);
+
+        task.getUsers().remove(user);
+
+        userRepository.save(user);
+        taskRepository.save(task);
+
+        return user;
+    }
 }
